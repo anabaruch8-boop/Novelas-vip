@@ -1,12 +1,10 @@
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#fff4f7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
   <title>Sweet Palace - Novelas VIP</title>
 
   <style>
@@ -101,14 +99,13 @@
     .novela-info h3 { margin: 0 0 6px; color: var(--texto); font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .cantidad { color: var(--texto-suave); font-size: 13px; margin-bottom: 10px; }
     
-    /* ETIQUETAS / TAGS EN TARJETAS */
     .tags-container { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; max-height: 50px; overflow: hidden; }
     .tag-badge { background: rgba(237, 75, 112, .08); color: var(--rosa); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
 
     .leer-btn { width: 100%; min-height: 40px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--rosa); color: white; font-weight: 800; font-size: 13px; cursor: pointer; transition: background .2s; }
     .leer-btn:hover { background: var(--rosa-oscuro); }
 
-    /* DETALLE DE NOVELA (REDISEÑADO) */
+    /* DETALLE DE NOVELA */
     .detalle-top { margin-bottom: 24px; }
     .back-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1.5px solid var(--borde); border-radius: 16px; background: var(--tarjeta); color: var(--texto); cursor: pointer; font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.02); transition: all .2s; }
     .back-btn:hover { border-color: var(--rosa); color: var(--rosa); }
@@ -143,7 +140,7 @@
     .capitulo-btn { flex-shrink: 0; min-height: 38px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--rosa); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: background .2s; }
     .capitulo-btn:hover { background: var(--rosa-oscuro); }
 
-    /* LECTOR (MODERNO Y LIMPIO) */
+    /* LECTOR */
     .reader-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
     .reader-brand { color: var(--rosa); font-size: 13px; font-weight: 800; letter-spacing: 1px; }
 
@@ -218,7 +215,7 @@
     <section id="libraryScreen" class="screen">
       <div class="biblioteca-header">
         <span class="etiqueta-vip">ÁREA EXCLUSIVA</span>
-        <h2>Mi Biblioteca </h2>
+        <h2>Mi Biblioteca</h2>
         <p>Selecciona una obra para comenzar tu lectura.</p>
       </div>
       <div class="buscador">
@@ -451,7 +448,6 @@
         topInfo.appendChild(titulo);
         topInfo.appendChild(cantidad);
 
-        // Renderizado de Etiquetas en Tarjeta
         if (novela.tags && novela.tags.length > 0) {
           const tagsDiv = document.createElement('div');
           tagsDiv.className = 'tags-container';
@@ -492,7 +488,6 @@
       document.getElementById('detalleTitulo').textContent = novelaActual.nombre;
       document.getElementById('detalleSinopsis').textContent = novelaActual.sinopsis || 'Esta obra aún no cuenta con una sinopsis.';
 
-      // Renderizado de Etiquetas en la Vista de Detalle
       const tagsContainer = document.getElementById('detalleTags');
       tagsContainer.innerHTML = '';
       if (novelaActual.tags && novelaActual.tags.length > 0) {
@@ -678,6 +673,7 @@
 
     function controlarBotonArriba() {
       const boton = document.getElementById('topButton');
+      if (!boton) return;
       if (window.scrollY > 350) { boton.style.display = 'flex'; } else { boton.style.display = 'none'; }
     }
 
@@ -693,24 +689,31 @@
         const tema = localStorage.getItem('sweetPalaceTema');
         if (tema === 'oscuro') {
           document.body.classList.add('dark');
-          document.getElementById('themeButton').textContent = '☀️';
+          const btn = document.getElementById('themeButton');
+          if (btn) btn.textContent = '☀️';
         }
       } catch (e) {}
     }
 
-    document.getElementById('buscarNovela').addEventListener('input', function() {
-      construirBiblioteca(this.value);
-    });
+    const inputBuscar = document.getElementById('buscarNovela');
+    if (inputBuscar) {
+      inputBuscar.addEventListener('input', function() {
+        construirBiblioteca(this.value);
+      });
+    }
 
-    document.getElementById('password').addEventListener('keydown', function(event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        entrar();
-      }
-    });
+    const inputPass = document.getElementById('password');
+    if (inputPass) {
+      inputPass.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          entrar();
+        }
+      });
+    }
 
     window.addEventListener('scroll', function() {
-      if (readerScreen.classList.contains('active')) { actualizarProgreso(); }
+      if (readerScreen && readerScreen.classList.contains('active')) { actualizarProgreso(); }
       controlarBotonArriba();
     }, { passive: true });
 
@@ -719,8 +722,10 @@
       if (!password) return;
 
       const loading = document.getElementById('loading');
-      loading.style.display = 'block';
-      loading.textContent = '⏳ Restaurando sesión...';
+      if (loading) {
+        loading.style.display = 'block';
+        loading.textContent = '⏳ Restaurando sesión...';
+      }
 
       fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
         .then(res => res.json())
@@ -729,12 +734,12 @@
             cargarContenidoVIP(password);
           } else {
             sessionStorage.removeItem('sweetPalacePassword');
-            loading.style.display = 'none';
+            if (loading) loading.style.display = 'none';
           }
         })
         .catch(() => {
           sessionStorage.removeItem('sweetPalacePassword');
-          loading.style.display = 'none';
+          if (loading) loading.style.display = 'none';
         });
     }
 
