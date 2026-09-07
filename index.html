@@ -63,7 +63,6 @@
     .password-box input { display: block; width: 100%; height: 54px; padding: 0 110px 0 17px; border: 1.5px solid var(--borde); border-radius: 17px; outline: none; background: var(--input); color: var(--texto); font-size: 16px; }
     .password-box input:focus { border-color: var(--rosa); box-shadow: 0 0 0 4px rgba(237, 75, 112, .10); }
     
-    /* Botón Ver/Ocultar limpio de texto (sin emojis) */
     .show-password { position: absolute; right: 7px; top: 7px; height: 40px; padding: 0 14px; border: 0; background: rgba(237, 75, 112, 0.1); color: var(--rosa); font-weight: 700; font-size: 12px; border-radius: 12px; }
     .show-password:hover { background: rgba(237, 75, 112, 0.2); }
 
@@ -191,13 +190,13 @@
         <div class="login-card">
           <div class="login-icon">🍓</div>
           <h1 class="login-title">Novelas VIP</h1>
-          <p class="login-subtitle">Bienvenida a Sweet Palace. Introduce tu contraseña VIP para acceder a tu biblioteca.</p>
+          <p class="login-subtitle">Introduce tu contraseña VIP para acceder a tu biblioteca.</p>
           <div class="password-box">
             <input type="password" id="password" placeholder="Contraseña VIP" autocomplete="current-password" autocapitalize="none" spellcheck="false">
             <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">Ver</button>
           </div>
           <button type="button" class="primary-btn" id="loginButton" onclick="entrar()">DESBLOQUEAR</button>
-          <div id="loading" class="loading">Verificando acceso...</div>
+          <div id="loading" class="loading">Cargando...</div>
           <div id="error" class="error"></div>
         </div>
       </div>
@@ -275,9 +274,6 @@
   <button id="topButton" type="button" onclick="volverArriba()">↑</button>
 
   <script>
-    /* =====================================================
-       NUEVA CONFIGURACIÓN DE LA API DE GOOGLE APPS SCRIPT
-    ===================================================== */
     const URL_API = "https://script.google.com/macros/s/AKfycbwY_wLSlhNV8DYML6C7LAS4LDG3SQM26tej_G-g_ng0zoyyqKz28zGDsRo3ngbUkHs-lg/exec";
 
     let novelas = [];
@@ -311,9 +307,6 @@
       }
     }
 
-    /* =====================================================
-       LOGIN CONECTADO A GOOGLE SHEET
-    ===================================================== */
     function entrar() {
       const passwordInput = document.getElementById('password');
       const password = passwordInput.value.trim();
@@ -328,7 +321,7 @@
       }
 
       loading.style.display = 'block';
-      loading.textContent = 'Verificando acceso con Google Sheet...';
+      loading.textContent = 'Verificando acceso...';
       button.disabled = true;
 
       fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
@@ -338,13 +331,13 @@
           try {
             data = JSON.parse(text);
           } catch (e) {
-            throw new Error("El servidor no devolvió un JSON válido. Revisa los permisos de Google Apps Script.");
+            throw new Error("Formato de respuesta inválido.");
           }
 
           if (!data.success) {
             loading.style.display = 'none';
             button.disabled = false;
-            error.textContent = 'Contraseña incorrecta o error de acceso.';
+            error.textContent = 'Contraseña incorrecta.';
             passwordInput.value = '';
             passwordInput.focus();
             return;
@@ -355,7 +348,7 @@
         .catch(err => {
           loading.style.display = 'none';
           button.disabled = false;
-          error.textContent = 'Error de conexión con la API.';
+          error.textContent = 'Error de conexión. Verifica los permisos de implementación.';
           console.error(err);
         });
     }
@@ -368,16 +361,13 @@
       try { return sessionStorage.getItem('sweetPalacePassword'); } catch (e) { return null; }
     }
 
-    /* =====================================================
-       CARGAR CONTENIDO VIP
-    ===================================================== */
     function cargarContenidoVIP(password) {
       const loading = document.getElementById('loading');
       const error = document.getElementById('error');
       const button = document.getElementById('loginButton');
 
       loading.style.display = 'block';
-      loading.textContent = 'Cargando biblioteca desde Google Sheet...';
+      loading.textContent = 'Cargando biblioteca...';
       if (button) button.disabled = true;
 
       fetch(`${URL_API}?action=obtenerCapitulos&password=${encodeURIComponent(password)}`)
@@ -390,12 +380,12 @@
           try {
             lista = JSON.parse(text);
           } catch (e) {
-            error.textContent = 'Error al interpretar los datos de Google Sheet.';
+            error.textContent = 'Error al procesar los datos.';
             return;
           }
 
           if (!lista || lista.error || lista.length === 0) {
-            error.textContent = lista.error || 'No hay novelas disponibles en la hoja.';
+            error.textContent = lista.error || 'No hay novelas disponibles.';
             return;
           }
           novelas = lista;
@@ -606,9 +596,6 @@
       try { localStorage.setItem('sweetPalace_' + novelaActual.nombre, capituloActual); } catch (e) {}
     }
 
-    /* =====================================================
-       CONVERTIDOR DE IMÁGENES DE GOOGLE DRIVE
-    ===================================================== */
     function convertirImagenDrive(url) {
       if (!url) return '';
       url = String(url).trim();
@@ -726,7 +713,7 @@
 
       const loading = document.getElementById('loading');
       loading.style.display = 'block';
-      loading.textContent = 'Restaurando sesión...';
+      loading.textContent = 'Entrando...';
 
       fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
         .then(res => res.text())
@@ -746,14 +733,11 @@
         });
     }
 
-    /* =====================================================
-       PROTECCIÓN CONTRA COPIA
-    ===================================================== */
     document.addEventListener('selectstart', function(e) {
       if (e.target.closest('.chapter-content')) { e.preventDefault(); return false; }
     });
     document.addEventListener('copy', function(e) {
-      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('El contenido está protegido contra copia.'); return false; }
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('Contenido protegido contra copia.'); return false; }
     });
     document.addEventListener('contextmenu', function(e) {
       if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('Contenido protegido.'); return false; }
@@ -773,7 +757,6 @@
       cargarTema();
       cargarTamano();
       iniciarSesionGuardada();
-      console.log('Sweet Palace - Conexión lista en GitHub Pages');
     });
   </script>
 </body>
