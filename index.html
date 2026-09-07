@@ -10,9 +10,6 @@
   <title>Sweet Palace - Novelas VIP</title>
 
   <style>
-    /* =====================================================
-       TU CSS ORIGINAL - SIN CAMBIOS
-    ===================================================== */
     :root {
       --rosa: #ed4b70;
       --rosa-oscuro: #d9365f;
@@ -44,13 +41,13 @@
     html { width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
     body { width: 100%; min-width: 0; max-width: 100%; min-height: 100vh; margin: 0; padding: 0; background: var(--fondo); color: var(--texto); font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif; overflow-x: hidden; transition: background .25s, color .25s; }
     button, input, select { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: pointer; }
 
     .header { position: sticky; top: 0; z-index: 100; width: 100%; height: 64px; background: var(--fondo-header); border-bottom: 1px solid var(--borde); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
     .header-inner { width: min(100% - 32px, 1080px); height: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; }
     .logo { display: flex; align-items: center; gap: 9px; color: var(--rosa); font-weight: 800; font-size: 20px; }
     .logo-icon { font-size: 25px; }
-    .theme { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--borde); background: transparent; color: var(--rosa); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .theme { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--borde); background: transparent; color: var(--rosa); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
     .app { width: min(100% - 32px, 1080px); margin: auto; padding: 42px 0 70px; }
     .screen { display: none; width: 100%; }
@@ -63,11 +60,14 @@
     .login-subtitle { margin: 0 auto 28px; max-width: 360px; color: var(--texto-suave); font-size: 15px; line-height: 1.7; }
     
     .password-box { position: relative; width: 100%; margin-bottom: 14px; }
-    .password-box input { display: block; width: 100%; height: 54px; padding: 0 52px 0 17px; border: 1.5px solid var(--borde); border-radius: 17px; outline: none; background: var(--input); color: var(--texto); font-size: 16px; }
+    .password-box input { display: block; width: 100%; height: 54px; padding: 0 110px 0 17px; border: 1.5px solid var(--borde); border-radius: 17px; outline: none; background: var(--input); color: var(--texto); font-size: 16px; }
     .password-box input:focus { border-color: var(--rosa); box-shadow: 0 0 0 4px rgba(237, 75, 112, .10); }
-    .show-password { position: absolute; right: 7px; top: 7px; width: 40px; height: 40px; border: 0; background: transparent; cursor: pointer; border-radius: 12px; }
+    
+    /* Botón Ver/Ocultar limpio de texto (sin emojis) */
+    .show-password { position: absolute; right: 7px; top: 7px; height: 40px; padding: 0 14px; border: 0; background: rgba(237, 75, 112, 0.1); color: var(--rosa); font-weight: 700; font-size: 12px; border-radius: 12px; }
+    .show-password:hover { background: rgba(237, 75, 112, 0.2); }
 
-    .primary-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; border: 0; border-radius: 17px; background: var(--rosa); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 8px 22px rgba(237, 75, 112, .25); }
+    .primary-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; border: 0; border-radius: 17px; background: var(--rosa); color: white; font-weight: 800; box-shadow: 0 8px 22px rgba(237, 75, 112, .25); }
     .primary-btn:hover { background: var(--rosa-oscuro); }
     .primary-btn:disabled { opacity: .6; cursor: wait; }
 
@@ -95,10 +95,10 @@
     .novela-info h3 { margin: 0 0 10px; color: var(--texto); font-size: 23px; overflow-wrap: anywhere; }
     .cantidad { color: var(--texto-suave); margin-bottom: 7px; }
     .tipo { color: var(--texto-suave); opacity: .7; font-size: 13px; margin-bottom: 18px; }
-    .leer-btn { align-self: flex-start; min-height: 43px; padding: 10px 18px; border: 0; border-radius: 14px; background: var(--rosa); color: white; font-weight: 800; cursor: pointer; }
+    .leer-btn { align-self: flex-start; min-height: 43px; padding: 10px 18px; border: 0; border-radius: 14px; background: var(--rosa); color: white; font-weight: 800; }
 
     .detalle-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .back-btn { min-height: 42px; padding: 9px 15px; border: 1px solid var(--borde); border-radius: 14px; background: var(--tarjeta); color: var(--texto); cursor: pointer; font-weight: 700; }
+    .back-btn { min-height: 42px; padding: 9px 15px; border: 1px solid var(--borde); border-radius: 14px; background: var(--tarjeta); color: var(--texto); font-weight: 700; }
 
     .detalle-card { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 27px; overflow: hidden; box-shadow: var(--sombra); }
     .detalle-portada { width: 100%; padding: 35px 20px 20px; display: flex; justify-content: center; background: linear-gradient(180deg, rgba(237, 75, 112, .08), transparent); }
@@ -114,7 +114,7 @@
     .lista-capitulos h2 { margin: 0 0 15px; color: var(--texto); }
     .capitulo-item { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 15px 17px; margin-bottom: 10px; border: 1px solid var(--borde); border-radius: 16px; background: var(--input); }
     .capitulo-nombre { min-width: 0; color: var(--texto); font-weight: 700; overflow-wrap: anywhere; }
-    .capitulo-btn { flex-shrink: 0; min-height: 38px; padding: 8px 13px; border: 0; border-radius: 12px; background: var(--rosa); color: white; cursor: pointer; font-weight: 700; font-size: 13px; }
+    .capitulo-btn { flex-shrink: 0; min-height: 38px; padding: 8px 13px; border: 0; border-radius: 12px; background: var(--rosa); color: white; font-weight: 700; font-size: 13px; }
 
     .reader-screen { display: none; }
     .reader-screen.active { display: block; }
@@ -126,7 +126,7 @@
     .chapter-select { padding: 15px 22px; border-bottom: 1px solid var(--borde); }
     .chapter-select select { width: 100%; height: 48px; padding: 0 13px; border: 1px solid var(--borde); border-radius: 15px; background: var(--input); color: var(--texto); outline: none; }
     .reader-controls { display: flex; justify-content: center; gap: 7px; padding: 13px; border-bottom: 1px solid var(--borde); }
-    .reader-controls button { width: 43px; height: 38px; border: 1px solid var(--borde); border-radius: 13px; background: transparent; color: var(--rosa); cursor: pointer; font-weight: 800; }
+    .reader-controls button { width: 43px; height: 38px; border: 1px solid var(--borde); border-radius: 13px; background: transparent; color: var(--rosa); font-weight: 800; }
     
     .progress-wrap { padding: 11px 17px 5px; }
     .progress-bar { width: 100%; height: 5px; overflow: hidden; border-radius: 10px; background: rgba(237, 75, 112, .10); }
@@ -137,9 +137,9 @@
     .chapter-content p { margin: 0 0 23px; text-align: justify; }
 
     .reader-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 18px 25px 25px; border-top: 1px solid var(--borde); }
-    .reader-navigation button { min-height: 48px; border: 1px solid var(--borde); border-radius: 15px; background: transparent; color: var(--rosa); font-weight: 800; cursor: pointer; }
+    .reader-navigation button { min-height: 48px; border: 1px solid var(--borde); border-radius: 15px; background: transparent; color: var(--rosa); font-weight: 800; }
 
-    #topButton { position: fixed; right: 18px; bottom: 18px; z-index: 200; display: none; width: 47px; height: 47px; border: 0; border-radius: 50%; background: var(--rosa); color: white; font-size: 19px; cursor: pointer; align-items: center; justify-content: center; }
+    #topButton { position: fixed; right: 18px; bottom: 18px; z-index: 200; display: none; width: 47px; height: 47px; border: 0; border-radius: 50%; background: var(--rosa); color: white; font-size: 19px; display: flex; align-items: center; justify-content: center; }
 
     @media (max-width: 600px) {
       .header { height: 58px; }
@@ -194,10 +194,10 @@
           <p class="login-subtitle">Bienvenida a Sweet Palace. Introduce tu contraseña VIP para acceder a tu biblioteca.</p>
           <div class="password-box">
             <input type="password" id="password" placeholder="Contraseña VIP" autocomplete="current-password" autocapitalize="none" spellcheck="false">
-            <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">👁️</button>
+            <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">Ver</button>
           </div>
           <button type="button" class="primary-btn" id="loginButton" onclick="entrar()">DESBLOQUEAR</button>
-          <div id="loading" class="loading">⏳ Verificando acceso...</div>
+          <div id="loading" class="loading">Verificando acceso...</div>
           <div id="error" class="error"></div>
         </div>
       </div>
@@ -207,12 +207,12 @@
     <section id="libraryScreen" class="screen">
       <div class="biblioteca">
         <div class="biblioteca-header">
-          <span class="etiqueta">✨ ÁREA VIP</span>
-          <h2>Mi biblioteca 📚</h2>
+          <span class="etiqueta">ÁREA VIP</span>
+          <h2>Mi biblioteca</h2>
           <p>Elige una novela para comenzar a leer.</p>
         </div>
         <div class="buscador">
-          <input type="search" id="buscarNovela" placeholder="🔎 Buscar novela..." autocomplete="off">
+          <input type="search" id="buscarNovela" placeholder="Buscar novela..." autocomplete="off">
         </div>
         <div id="listaNovelas" class="lista-novelas"></div>
       </div>
@@ -229,7 +229,7 @@
           <h1 id="detalleTitulo">Novela</h1>
         </div>
         <div class="sinopsis">
-          <h2>✨ Sinopsis</h2>
+          <h2>Sinopsis</h2>
           <p id="detalleSinopsis"></p>
         </div>
         <div class="lista-capitulos">
@@ -276,9 +276,9 @@
 
   <script>
     /* =====================================================
-       CONFIGURACIÓN DE LA API (URL DE APPS SCRIPT)
+       NUEVA CONFIGURACIÓN DE LA API DE GOOGLE APPS SCRIPT
     ===================================================== */
-    const URL_API = "https://script.google.com/macros/s/AKfycbz6AdjUyacLTLh1rZpxn_5rtCIsXz7E7bomG97l6lFBJVox1-nXJlVRfcfwBWuqm5Co3g/exec";
+    const URL_API = "https://script.google.com/macros/s/AKfycbwY_wLSlhNV8DYML6C7LAS4LDG3SQM26tej_G-g_ng0zoyyqKz28zGDsRo3ngbUkHs-lg/exec";
 
     let novelas = [];
     let novelaActual = null;
@@ -304,15 +304,15 @@
       const boton = document.getElementById('showPassword');
       if (input.type === 'password') {
         input.type = 'text';
-        boton.textContent = '🙈';
+        boton.textContent = 'Ocultar';
       } else {
         input.type = 'password';
-        boton.textContent = '👁️';
+        boton.textContent = 'Ver';
       }
     }
 
     /* =====================================================
-       LOGIN (Con mejoras de conexión para GitHub Pages)
+       LOGIN CONECTADO A GOOGLE SHEET
     ===================================================== */
     function entrar() {
       const passwordInput = document.getElementById('password');
@@ -323,12 +323,12 @@
 
       error.textContent = '';
       if (!password) {
-        error.textContent = '⚠️ Introduce la contraseña.';
+        error.textContent = 'Introduce la contraseña.';
         return;
       }
 
       loading.style.display = 'block';
-      loading.textContent = '⏳ Verificando acceso con Google Sheet...';
+      loading.textContent = 'Verificando acceso con Google Sheet...';
       button.disabled = true;
 
       fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
@@ -344,7 +344,7 @@
           if (!data.success) {
             loading.style.display = 'none';
             button.disabled = false;
-            error.textContent = '❌ Contraseña incorrecta o error de acceso.';
+            error.textContent = 'Contraseña incorrecta o error de acceso.';
             passwordInput.value = '';
             passwordInput.focus();
             return;
@@ -355,7 +355,7 @@
         .catch(err => {
           loading.style.display = 'none';
           button.disabled = false;
-          error.textContent = '❌ Error de conexión: ' + err.message;
+          error.textContent = 'Error de conexión con la API.';
           console.error(err);
         });
     }
@@ -377,7 +377,7 @@
       const button = document.getElementById('loginButton');
 
       loading.style.display = 'block';
-      loading.textContent = '⏳ Cargando biblioteca desde Google Sheet...';
+      loading.textContent = 'Cargando biblioteca desde Google Sheet...';
       if (button) button.disabled = true;
 
       fetch(`${URL_API}?action=obtenerCapitulos&password=${encodeURIComponent(password)}`)
@@ -390,12 +390,12 @@
           try {
             lista = JSON.parse(text);
           } catch (e) {
-            error.textContent = '⚠️ Error al interpretar los datos de Google Sheet.';
+            error.textContent = 'Error al interpretar los datos de Google Sheet.';
             return;
           }
 
           if (!lista || lista.error || lista.length === 0) {
-            error.textContent = lista.error || '⚠️ No hay novelas disponibles en la hoja.';
+            error.textContent = lista.error || 'No hay novelas disponibles en la hoja.';
             return;
           }
           novelas = lista;
@@ -406,7 +406,7 @@
         .catch(err => {
           loading.style.display = 'none';
           if (button) button.disabled = false;
-          error.textContent = '❌ No se pudieron cargar las novelas.';
+          error.textContent = 'No se pudieron cargar las novelas.';
           console.error(err);
         });
     }
@@ -421,7 +421,7 @@
       });
 
       if (lista.length === 0) {
-        contenedor.innerHTML = `<div class="empty">🔎<br><br>No encontramos esa novela.</div>`;
+        contenedor.innerHTML = `<div class="empty">No encontramos esa novela.</div>`;
         return;
       }
 
@@ -607,13 +607,12 @@
     }
 
     /* =====================================================
-       CONVERTIDOR DE IMÁGENES DE GOOGLE DRIVE MEJORADO
+       CONVERTIDOR DE IMÁGENES DE GOOGLE DRIVE
     ===================================================== */
     function convertirImagenDrive(url) {
       if (!url) return '';
       url = String(url).trim();
       
-      // Si ya es un enlace directo de visualización o miniatura
       let match = url.match(/drive\.google\.com\/file\/d\/([^\/?]+)/);
       if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1000';
       
@@ -623,7 +622,6 @@
       match = url.match(/drive\.google\.com\/uc\?id=([^&]+)/);
       if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1000';
       
-      // Si pegaron directamente el ID del archivo
       if (/^[a-zA-Z0-9_-]{25,}$/.test(url)) {
         return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(url) + '&sz=w1000';
       }
@@ -728,7 +726,7 @@
 
       const loading = document.getElementById('loading');
       loading.style.display = 'block';
-      loading.textContent = '⏳ Restaurando sesión...';
+      loading.textContent = 'Restaurando sesión...';
 
       fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
         .then(res => res.text())
@@ -749,22 +747,22 @@
     }
 
     /* =====================================================
-       🔒 PROTECCIÓN ANTI-COPY
+       PROTECCIÓN CONTRA COPIA
     ===================================================== */
     document.addEventListener('selectstart', function(e) {
       if (e.target.closest('.chapter-content')) { e.preventDefault(); return false; }
     });
     document.addEventListener('copy', function(e) {
-      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('📚 El contenido está protegido contra copia.'); return false; }
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('El contenido está protegido contra copia.'); return false; }
     });
     document.addEventListener('contextmenu', function(e) {
-      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('📚 Contenido protegido.'); return false; }
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('Contenido protegido.'); return false; }
     });
     document.addEventListener('keydown', function(e) {
       if (!e.target.closest('.chapter-content')) return;
       const teclas = ['c', 'u', 's', 'p', 'a'];
       if ((e.ctrlKey && teclas.includes(e.key.toLowerCase())) || (e.metaKey && teclas.includes(e.key.toLowerCase())) || e.key === 'F12') {
-        e.preventDefault(); alert('📚 Función deshabilitada.'); return false;
+        e.preventDefault(); alert('Función deshabilitada.'); return false;
       }
     });
     document.addEventListener('dragstart', function(e) {
@@ -775,7 +773,7 @@
       cargarTema();
       cargarTamano();
       iniciarSesionGuardada();
-      console.log('🍓 Sweet Palace - Conexión lista');
+      console.log('Sweet Palace - Conexión lista en GitHub Pages');
     });
   </script>
 </body>
