@@ -205,7 +205,7 @@
           <p class="login-subtitle">Introduce tu contraseña exclusiva para acceder a Sweet Palace.</p>
           <div class="password-box">
             <input type="password" id="password" placeholder="Contraseña VIP" autocomplete="current-password" autocapitalize="none" spellcheck="false">
-            <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">🗝️</button>
+            <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">🔒</button>
           </div>
           <button type="button" class="primary-btn" id="loginButton" onclick="entrar()">ACCEDER AHORA</button>
           <div id="loading" class="loading">⏳ Verificando acceso...</div>
@@ -683,7 +683,7 @@
 
     function toggleTheme() {
       document.body.classList.toggle('dark');
-      const oscuro = document.body.classList.2?.contains('dark') || document.body.classList.contains('dark');
+      const oscuro = document.body.classList.contains('dark');
       document.getElementById('themeButton').textContent = oscuro ? '☀️' : '🌙';
       try { localStorage.setItem('sweetPalaceTema', oscuro ? 'oscuro' : 'claro'); } catch (e) {}
     }
