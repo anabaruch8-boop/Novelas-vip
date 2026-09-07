@@ -1,0 +1,756 @@
+<html lang="es">
+
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#fff4f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Sweet Palace - Novelas VIP</title>
+
+  <style>
+    /* =====================================================
+       TU CSS ORIGINAL - SIN CAMBIOS
+    ===================================================== */
+    :root {
+      --rosa: #ed4b70;
+      --rosa-oscuro: #d9365f;
+      --fondo: #fff5f8;
+      --fondo-header: rgba(255, 255, 255, .92);
+      --tarjeta: #ffffff;
+      --texto: #3d2630;
+      --texto-suave: #86616d;
+      --borde: #f4ccd8;
+      --input: #fffafb;
+      --sombra: 0 15px 45px rgba(190, 76, 111, .12);
+      --fuente-lectura: 18px;
+    }
+
+    body.dark {
+      --fondo: #181316;
+      --fondo-header: rgba(28, 23, 26, .94);
+      --tarjeta: #241d20;
+      --texto: #f3e5e9;
+      --texto-suave: #c8aab4;
+      --borde: #51353e;
+      --input: #2b2326;
+      --rosa: #e88ba4;
+      --rosa-oscuro: #f0a0b5;
+      --sombra: 0 15px 45px rgba(0, 0, 0, .28);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+    body { width: 100%; min-width: 0; max-width: 100%; min-height: 100vh; margin: 0; padding: 0; background: var(--fondo); color: var(--texto); font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif; overflow-x: hidden; transition: background .25s, color .25s; }
+    button, input, select { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+    .header { position: sticky; top: 0; z-index: 100; width: 100%; height: 64px; background: var(--fondo-header); border-bottom: 1px solid var(--borde); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .header-inner { width: min(100% - 32px, 1080px); height: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 9px; color: var(--rosa); font-weight: 800; font-size: 20px; }
+    .logo-icon { font-size: 25px; }
+    .theme { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--borde); background: transparent; color: var(--rosa); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+    .app { width: min(100% - 32px, 1080px); margin: auto; padding: 42px 0 70px; }
+    .screen { display: none; width: 100%; }
+    .screen.active { display: block; }
+
+    .login-wrapper { width: min(100%, 460px); margin: 45px auto 0; }
+    .login-card { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 30px; padding: 38px 32px; box-shadow: var(--sombra); text-align: center; }
+    .login-icon { font-size: 58px; margin-bottom: 16px; }
+    .login-title { margin: 0 0 8px; color: var(--rosa); font-size: clamp(28px, 5vw, 38px); font-weight: 900; }
+    .login-subtitle { margin: 0 auto 28px; max-width: 360px; color: var(--texto-suave); font-size: 15px; line-height: 1.7; }
+    
+    .password-box { position: relative; width: 100%; margin-bottom: 14px; }
+    .password-box input { display: block; width: 100%; height: 54px; padding: 0 52px 0 17px; border: 1.5px solid var(--borde); border-radius: 17px; outline: none; background: var(--input); color: var(--texto); font-size: 16px; }
+    .password-box input:focus { border-color: var(--rosa); box-shadow: 0 0 0 4px rgba(237, 75, 112, .10); }
+    .show-password { position: absolute; right: 7px; top: 7px; width: 40px; height: 40px; border: 0; background: transparent; cursor: pointer; border-radius: 12px; }
+
+    .primary-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; border: 0; border-radius: 17px; background: var(--rosa); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 8px 22px rgba(237, 75, 112, .25); }
+    .primary-btn:hover { background: var(--rosa-oscuro); }
+    .primary-btn:disabled { opacity: .6; cursor: wait; }
+
+    .loading { display: none; margin-top: 17px; color: var(--rosa); font-size: 14px; font-weight: 700; }
+    .error { min-height: 22px; margin-top: 14px; color: #d52d4f; font-size: 14px; font-weight: 700; }
+
+    .biblioteca { width: 100%; margin-top: 25px; }
+    .biblioteca-header { margin-bottom: 20px; }
+    .etiqueta { display: inline-block; color: var(--rosa); font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
+    .biblioteca-header h2 { margin: 0; font-size: clamp(25px, 5vw, 34px); color: var(--texto); }
+    .biblioteca-header p { margin-top: 7px; color: var(--texto-suave); }
+
+    .buscador { margin-bottom: 22px; }
+    .buscador input { width: 100%; height: 50px; padding: 0 17px; border: 1px solid var(--borde); border-radius: 16px; background: var(--input); color: var(--texto); outline: none; }
+
+    .lista-novelas { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .novela-card { display: flex; width: 100%; overflow: hidden; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 24px; box-shadow: 0 12px 30px rgba(255, 77, 109, .10); transition: transform .2s, box-shadow .2s; }
+    .novela-card:hover { transform: translateY(-2px); box-shadow: 0 16px 35px rgba(255, 77, 109, .16); }
+
+    .novela-portada { width: 150px; min-width: 150px; height: 210px; background: linear-gradient(135deg, #fff0f4, #f8d8e1); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .novela-portada img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .portada-placeholder { font-size: 55px; }
+
+    .novela-info { min-width: 0; flex: 1; padding: 25px; display: flex; flex-direction: column; justify-content: center; }
+    .novela-info h3 { margin: 0 0 10px; color: var(--texto); font-size: 23px; overflow-wrap: anywhere; }
+    .cantidad { color: var(--texto-suave); margin-bottom: 7px; }
+    .tipo { color: var(--texto-suave); opacity: .7; font-size: 13px; margin-bottom: 18px; }
+    .leer-btn { align-self: flex-start; min-height: 43px; padding: 10px 18px; border: 0; border-radius: 14px; background: var(--rosa); color: white; font-weight: 800; cursor: pointer; }
+
+    .detalle-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .back-btn { min-height: 42px; padding: 9px 15px; border: 1px solid var(--borde); border-radius: 14px; background: var(--tarjeta); color: var(--texto); cursor: pointer; font-weight: 700; }
+
+    .detalle-card { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 27px; overflow: hidden; box-shadow: var(--sombra); }
+    .detalle-portada { width: 100%; padding: 35px 20px 20px; display: flex; justify-content: center; background: linear-gradient(180deg, rgba(237, 75, 112, .08), transparent); }
+    .detalle-portada img { width: min(260px, 75vw); height: 370px; object-fit: cover; border-radius: 18px; box-shadow: 0 18px 40px rgba(0, 0, 0, .18); }
+    .detalle-titulo { padding: 10px 25px 25px; text-align: center; }
+    .detalle-titulo h1 { margin: 0; color: var(--rosa); font-size: clamp(27px, 5vw, 38px); line-height: 1.2; }
+
+    .sinopsis { margin: 0 25px 25px; padding: 22px; border: 1px solid var(--borde); border-radius: 20px; background: rgba(237, 75, 112, .04); }
+    .sinopsis h2 { margin: 0 0 10px; color: var(--rosa); font-size: 19px; }
+    .sinopsis p { margin: 0; color: var(--texto); line-height: 1.8; white-space: pre-line; }
+
+    .lista-capitulos { padding: 0 25px 30px; }
+    .lista-capitulos h2 { margin: 0 0 15px; color: var(--texto); }
+    .capitulo-item { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 15px 17px; margin-bottom: 10px; border: 1px solid var(--borde); border-radius: 16px; background: var(--input); }
+    .capitulo-nombre { min-width: 0; color: var(--texto); font-weight: 700; overflow-wrap: anywhere; }
+    .capitulo-btn { flex-shrink: 0; min-height: 38px; padding: 8px 13px; border: 0; border-radius: 12px; background: var(--rosa); color: white; cursor: pointer; font-weight: 700; font-size: 13px; }
+
+    .reader-screen { display: none; }
+    .reader-screen.active { display: block; }
+    .reader-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 18px; }
+    .reader-brand { color: var(--rosa); font-size: 13px; font-weight: 700; }
+    .reader-card { width: 100%; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 27px; overflow: hidden; box-shadow: var(--sombra); }
+    .reader-heading { padding: 28px; text-align: center; border-bottom: 1px solid var(--borde); }
+    .reader-heading h1 { margin: 0; color: var(--rosa); font-size: clamp(25px, 4vw, 35px); line-height: 1.2; }
+    .chapter-select { padding: 15px 22px; border-bottom: 1px solid var(--borde); }
+    .chapter-select select { width: 100%; height: 48px; padding: 0 13px; border: 1px solid var(--borde); border-radius: 15px; background: var(--input); color: var(--texto); outline: none; }
+    .reader-controls { display: flex; justify-content: center; gap: 7px; padding: 13px; border-bottom: 1px solid var(--borde); }
+    .reader-controls button { width: 43px; height: 38px; border: 1px solid var(--borde); border-radius: 13px; background: transparent; color: var(--rosa); cursor: pointer; font-weight: 800; }
+    
+    .progress-wrap { padding: 11px 17px 5px; }
+    .progress-bar { width: 100%; height: 5px; overflow: hidden; border-radius: 10px; background: rgba(237, 75, 112, .10); }
+    #progress { width: 0%; height: 100%; background: var(--rosa); }
+    .progress-text { padding-top: 5px; text-align: center; color: var(--texto-suave); font-size: 11px; }
+
+    .chapter-content { width: 100%; max-width: 820px; margin: auto; padding: 30px 38px 35px; color: var(--texto); font-family: Georgia, "Times New Roman", serif; font-size: var(--fuente-lectura); line-height: 1.9; overflow-wrap: anywhere; user-select: none !important; -webkit-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; -webkit-touch-callout: none !important; }
+    .chapter-content p { margin: 0 0 23px; text-align: justify; }
+
+    .reader-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 18px 25px 25px; border-top: 1px solid var(--borde); }
+    .reader-navigation button { min-height: 48px; border: 1px solid var(--borde); border-radius: 15px; background: transparent; color: var(--rosa); font-weight: 800; cursor: pointer; }
+
+    #topButton { position: fixed; right: 18px; bottom: 18px; z-index: 200; display: none; width: 47px; height: 47px; border: 0; border-radius: 50%; background: var(--rosa); color: white; font-size: 19px; cursor: pointer; align-items: center; justify-content: center; }
+
+    @media (max-width: 600px) {
+      .header { height: 58px; }
+      .header-inner { width: calc(100% - 22px); }
+      .app { width: calc(100% - 20px); padding: 25px 0 45px; }
+      .login-wrapper { margin-top: 15px; }
+      .login-card { padding: 30px 18px; border-radius: 23px; }
+      .novela-card { border-radius: 20px; }
+      .novela-portada { width: 105px; min-width: 105px; height: 150px; }
+      .novela-info { padding: 15px; }
+      .novela-info h3 { font-size: 18px; }
+      .leer-btn { padding: 9px 13px; font-size: 13px; }
+      .detalle-portada { padding-top: 25px; }
+      .detalle-portada img { width: 210px; height: 300px; }
+      .detalle-titulo { padding: 10px 18px 22px; }
+      .sinopsis { margin: 0 15px 20px; padding: 17px; }
+      .lista-capitulos { padding: 0 15px 25px; }
+      .capitulo-item { align-items: flex-start; }
+      .chapter-content { padding: 20px 16px 30px !important; font-size: 19px !important; line-height: 1.85 !important; }
+      .chapter-content p { text-align: left !important; margin-bottom: 20px !important; }
+      .reader-heading { padding: 20px 15px !important; }
+      .reader-heading h1 { font-size: clamp(22px, 5vw, 28px) !important; }
+      .reader-navigation { padding: 12px 14px 18px !important; }
+      .reader-navigation button { min-height: 44px !important; font-size: 14px !important; }
+      .reader-controls { padding: 10px !important; }
+      .reader-controls button { width: 38px !important; height: 34px !important; font-size: 14px !important; }
+    }
+
+    .empty { text-align: center; padding: 40px 20px; color: var(--texto-suave); font-size: 18px; background: var(--tarjeta); border-radius: 24px; border: 1px solid var(--borde); }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🍓</span>
+        <span>Sweet Palace</span>
+      </div>
+      <button class="theme" id="themeButton" type="button" onclick="toggleTheme()">🌙</button>
+    </div>
+  </header>
+
+  <main class="app">
+    <!-- LOGIN -->
+    <section id="loginScreen" class="screen active">
+      <div class="login-wrapper">
+        <div class="login-card">
+          <div class="login-icon">🍓</div>
+          <h1 class="login-title">Novelas VIP</h1>
+          <p class="login-subtitle">Bienvenida a Sweet Palace. Introduce tu contraseña VIP para acceder a tu biblioteca.</p>
+          <div class="password-box">
+            <input type="password" id="password" placeholder="Contraseña VIP" autocomplete="current-password" autocapitalize="none" spellcheck="false">
+            <button type="button" class="show-password" id="showPassword" onclick="mostrarPassword()">👁️</button>
+          </div>
+          <button type="button" class="primary-btn" id="loginButton" onclick="entrar()">DESBLOQUEAR</button>
+          <div id="loading" class="loading">⏳ Verificando acceso...</div>
+          <div id="error" class="error"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIBLIOTECA -->
+    <section id="libraryScreen" class="screen">
+      <div class="biblioteca">
+        <div class="biblioteca-header">
+          <span class="etiqueta">✨ ÁREA VIP</span>
+          <h2>Mi biblioteca 📚</h2>
+          <p>Elige una novela para comenzar a leer.</p>
+        </div>
+        <div class="buscador">
+          <input type="search" id="buscarNovela" placeholder="🔎 Buscar novela..." autocomplete="off">
+        </div>
+        <div id="listaNovelas" class="lista-novelas"></div>
+      </div>
+    </section>
+
+    <!-- DETALLE -->
+    <section id="novelaScreen" class="screen">
+      <div class="detalle-top">
+        <button type="button" class="back-btn" onclick="volverBiblioteca()">← Biblioteca</button>
+      </div>
+      <article class="detalle-card">
+        <div id="detallePortada" class="detalle-portada"></div>
+        <div class="detalle-titulo">
+          <h1 id="detalleTitulo">Novela</h1>
+        </div>
+        <div class="sinopsis">
+          <h2>✨ Sinopsis</h2>
+          <p id="detalleSinopsis"></p>
+        </div>
+        <div class="lista-capitulos">
+          <h2>Capítulos</h2>
+          <div id="listaCapitulos"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- LECTOR -->
+    <section id="readerScreen" class="screen">
+      <div class="reader-top">
+        <button type="button" class="back-btn" onclick="volverDetalleNovela()">← Novela</button>
+        <div id="readerBrand" class="reader-brand">Sweet Palace · VIP</div>
+      </div>
+      <article class="reader-card">
+        <div class="reader-heading">
+          <h1 id="chapterTitle">Capítulo</h1>
+        </div>
+        <div class="chapter-select">
+          <select id="chapterSelect" onchange="seleccionarCapitulo()"></select>
+        </div>
+        <div class="reader-controls">
+          <button type="button" onclick="cambiarTamano(-1)">A−</button>
+          <button type="button" onclick="tamanoNormal()">A</button>
+          <button type="button" onclick="cambiarTamano(1)">A+</button>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar">
+            <div id="progress"></div>
+          </div>
+          <div id="progressText" class="progress-text">0% leído</div>
+        </div>
+        <div id="chapterContent" class="chapter-content"></div>
+        <div class="reader-navigation">
+          <button type="button" onclick="cambiarCapitulo(-1)">← Anterior</button>
+          <button type="button" onclick="cambiarCapitulo(1)">Siguiente →</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <button id="topButton" type="button" onclick="volverArriba()">↑</button>
+
+  <script>
+    /* =====================================================
+       CONFIGURACIÓN DE LA API (PEGA TU URL DE APPS SCRIPT AQUÍ)
+    ===================================================== */
+    const URL_API = "https://script.google.com/macros/s/AKfycbz6AdjUyacLTLh1rZpxn_5rtCIsXz7E7bomG97l6lFBJVox1-nXJlVRfcfwBWuqm5Co3g/exec";
+
+    let novelas = [];
+    let novelaActual = null;
+    let capituloActual = 0;
+    let tamanoTexto = 18;
+
+    const loginScreen = document.getElementById('loginScreen');
+    const libraryScreen = document.getElementById('libraryScreen');
+    const novelaScreen = document.getElementById('novelaScreen');
+    const readerScreen = document.getElementById('readerScreen');
+
+    function mostrarPantalla(pantalla) {
+      loginScreen.classList.remove('active');
+      libraryScreen.classList.remove('active');
+      novelaScreen.classList.remove('active');
+      readerScreen.classList.remove('active');
+      pantalla.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function mostrarPassword() {
+      const input = document.getElementById('password');
+      const boton = document.getElementById('showPassword');
+      if (input.type === 'password') {
+        input.type = 'text';
+        boton.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        boton.textContent = '👁️';
+      }
+    }
+
+    /* =====================================================
+       LOGIN (Adaptado con Fetch para GitHub Pages)
+    ===================================================== */
+    function entrar() {
+      const passwordInput = document.getElementById('password');
+      const password = passwordInput.value.trim();
+      const error = document.getElementById('error');
+      const loading = document.getElementById('loading');
+      const button = document.getElementById('loginButton');
+
+      error.textContent = '';
+      if (!password) {
+        error.textContent = '⚠️ Introduce la contraseña.';
+        return;
+      }
+
+      loading.style.display = 'block';
+      loading.textContent = '⏳ Verificando acceso...';
+      button.disabled = true;
+
+      fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            loading.style.display = 'none';
+            button.disabled = false;
+            error.textContent = '❌ Contraseña incorrecta.';
+            passwordInput.value = '';
+            passwordInput.focus();
+            return;
+          }
+          guardarPasswordSesion(password);
+          cargarContenidoVIP(password);
+        })
+        .catch(err => {
+          loading.style.display = 'none';
+          button.disabled = false;
+          error.textContent = '❌ Error de conexión con el servidor.';
+          console.error(err);
+        });
+    }
+
+    function guardarPasswordSesion(password) {
+      try { sessionStorage.setItem('sweetPalacePassword', password); } catch (e) {}
+    }
+
+    function recuperarPasswordSesion() {
+      try { return sessionStorage.getItem('sweetPalacePassword'); } catch (e) { return null; }
+    }
+
+    /* =====================================================
+       CARGAR CONTENIDO VIP (Adaptado con Fetch)
+    ===================================================== */
+    function cargarContenidoVIP(password) {
+      const loading = document.getElementById('loading');
+      const error = document.getElementById('error');
+      const button = document.getElementById('loginButton');
+
+      loading.style.display = 'block';
+      loading.textContent = '⏳ Cargando biblioteca...';
+      if (button) button.disabled = true;
+
+      fetch(`${URL_API}?action=obtenerCapitulos&password=${encodeURIComponent(password)}`)
+        .then(res => res.json())
+        .then(lista => {
+          loading.style.display = 'none';
+          if (button) button.disabled = false;
+          
+          if (!lista || lista.error || lista.length === 0) {
+            error.textContent = lista.error || '⚠️ No hay novelas disponibles.';
+            return;
+          }
+          novelas = lista;
+          construirBiblioteca();
+          cargarTamano();
+          mostrarPantalla(libraryScreen);
+        })
+        .catch(err => {
+          loading.style.display = 'none';
+          if (button) button.disabled = false;
+          error.textContent = '❌ No se pudieron cargar las novelas.';
+          console.error(err);
+        });
+    }
+
+    function construirBiblioteca(filtro = '') {
+      const contenedor = document.getElementById('listaNovelas');
+      contenedor.innerHTML = '';
+
+      const texto = String(filtro).toLowerCase().trim();
+      const lista = novelas.filter(function(novela) {
+        return novela.nombre.toLowerCase().includes(texto);
+      });
+
+      if (lista.length === 0) {
+        contenedor.innerHTML = `<div class="empty">🔎<br><br>No encontramos esa novela.</div>`;
+        return;
+      }
+
+      lista.forEach(function(novela) {
+        const tarjeta = document.createElement('article');
+        tarjeta.className = 'novela-card';
+
+        const portada = document.createElement('div');
+        portada.className = 'novela-portada';
+
+        if (novela.portada) {
+          const img = document.createElement('img');
+          img.src = convertirImagenDrive(novela.portada);
+          img.alt = 'Portada de ' + novela.nombre;
+          img.loading = 'lazy';
+          img.onerror = function() {
+            portada.innerHTML = '<div class="portada-placeholder">📖</div>';
+          };
+          portada.appendChild(img);
+        } else {
+          portada.innerHTML = '<div class="portada-placeholder">📖</div>';
+        }
+
+        const info = document.createElement('div');
+        info.className = 'novela-info';
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = novela.nombre;
+
+        const cantidad = document.createElement('div');
+        cantidad.className = 'cantidad';
+        cantidad.textContent = novela.capitulos.length + (novela.capitulos.length === 1 ? ' capítulo disponible' : ' capítulos disponibles');
+
+        const tipo = document.createElement('div');
+        tipo.className = 'tipo';
+        tipo.textContent = 'Novela VIP';
+
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = 'leer-btn';
+        boton.textContent = 'Leer novela →';
+        boton.onclick = function() { abrirNovela(novela); };
+
+        info.appendChild(titulo);
+        info.appendChild(cantidad);
+        info.appendChild(tipo);
+        info.appendChild(boton);
+
+        tarjeta.appendChild(portada);
+        tarjeta.appendChild(info);
+        contenedor.appendChild(tarjeta);
+      });
+    }
+
+    function abrirNovela(novela) {
+      novelaActual = novela;
+      capituloActual = 0;
+      mostrarDetalleNovela();
+      mostrarPantalla(novelaScreen);
+    }
+
+    function mostrarDetalleNovela() {
+      if (!novelaActual) return;
+
+      document.getElementById('detalleTitulo').textContent = novelaActual.nombre;
+      document.getElementById('detalleSinopsis').textContent = novelaActual.sinopsis || 'Esta novela todavía no tiene una sinopsis disponible.';
+
+      const portada = document.getElementById('detallePortada');
+      portada.innerHTML = '';
+
+      if (novelaActual.portada) {
+        const img = document.createElement('img');
+        img.src = convertirImagenDrive(novelaActual.portada);
+        img.alt = 'Portada de ' + novelaActual.nombre;
+        img.onerror = function() {
+          portada.innerHTML = '<div class="portada-placeholder">📖</div>';
+        };
+        portada.appendChild(img);
+      } else {
+        portada.innerHTML = '<div class="portada-placeholder">📖</div>';
+      }
+
+      const lista = document.getElementById('listaCapitulos');
+      lista.innerHTML = '';
+
+      novelaActual.capitulos.forEach(function(capitulo, index) {
+        const item = document.createElement('div');
+        item.className = 'capitulo-item';
+
+        const nombre = document.createElement('div');
+        nombre.className = 'capitulo-nombre';
+        nombre.textContent = capitulo.titulo;
+
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = 'capitulo-btn';
+        boton.textContent = 'Leer →';
+        boton.onclick = function() { abrirCapitulo(index); };
+
+        item.appendChild(nombre);
+        item.appendChild(boton);
+        lista.appendChild(item);
+      });
+    }
+
+    function volverBiblioteca() {
+      novelaActual = null;
+      mostrarPantalla(libraryScreen);
+    }
+
+    function abrirCapitulo(index) {
+      if (!novelaActual) return;
+      capituloActual = index;
+      construirSelector();
+      mostrarCapitulo();
+      mostrarPantalla(readerScreen);
+    }
+
+    function volverDetalleNovela() {
+      mostrarDetalleNovela();
+      mostrarPantalla(novelaScreen);
+    }
+
+    function construirSelector() {
+      const selector = document.getElementById('chapterSelect');
+      selector.innerHTML = '';
+      if (!novelaActual) return;
+
+      novelaActual.capitulos.forEach(function(capitulo, index) {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = capitulo.titulo;
+        selector.appendChild(option);
+      });
+      selector.value = capituloActual;
+    }
+
+    function mostrarCapitulo() {
+      if (!novelaActual || !novelaActual.capitulos.length) return;
+
+      const capitulo = novelaActual.capitulos[capituloActual];
+
+      document.getElementById('chapterTitle').textContent = capitulo.titulo;
+      document.getElementById('readerBrand').textContent = novelaActual.nombre + ' · VIP';
+
+      const contenido = document.getElementById('chapterContent');
+      contenido.innerHTML = '';
+
+      const parrafos = String(capitulo.texto || '').split(/\n\s*\n|\n+/);
+
+      parrafos.forEach(function(texto) {
+        const limpio = texto.trim();
+        if (!limpio) return;
+        const p = document.createElement('p');
+        p.textContent = limpio;
+        contenido.appendChild(p);
+      });
+
+      document.getElementById('chapterSelect').value = capituloActual;
+      guardarCapitulo();
+      aplicarTamano();
+      actualizarProgreso();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function seleccionarCapitulo() {
+      const selector = document.getElementById('chapterSelect');
+      capituloActual = parseInt(selector.value, 10);
+      mostrarCapitulo();
+    }
+
+    function cambiarCapitulo(direccion) {
+      if (!novelaActual) return;
+      const nuevo = capituloActual + direccion;
+      if (nuevo < 0 || nuevo >= novelaActual.capitulos.length) return;
+      capituloActual = nuevo;
+      mostrarCapitulo();
+    }
+
+    function guardarCapitulo() {
+      if (!novelaActual) return;
+      try { localStorage.setItem('sweetPalace_' + novelaActual.nombre, capituloActual); } catch (e) {}
+    }
+
+    function convertirImagenDrive(url) {
+      if (!url) return '';
+      url = String(url).trim();
+      let match = url.match(/drive\.google\.com\/file\/d\/([^\/?]+)/);
+      if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1000';
+      match = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+      if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1000';
+      match = url.match(/drive\.google\.com\/uc\?id=([^&]+)/);
+      if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1000';
+      return url;
+    }
+
+    function cambiarTamano(cambio) {
+      tamanoTexto += cambio;
+      tamanoTexto = Math.max(14, Math.min(28, tamanoTexto));
+      aplicarTamano();
+      try { localStorage.setItem('sweetPalaceTamano', tamanoTexto); } catch (e) {}
+    }
+
+    function tamanoNormal() {
+      tamanoTexto = 18;
+      aplicarTamano();
+      try { localStorage.setItem('sweetPalaceTamano', tamanoTexto); } catch (e) {}
+    }
+
+    function aplicarTamano() {
+      document.documentElement.style.setProperty('--fuente-lectura', tamanoTexto + 'px');
+    }
+
+    function cargarTamano() {
+      try {
+        const guardado = localStorage.getItem('sweetPalaceTamano');
+        if (guardado) {
+          const numero = parseInt(guardado, 10);
+          if (numero >= 14 && numero <= 28) tamanoTexto = numero;
+        }
+      } catch (e) {}
+      aplicarTamano();
+    }
+
+    function actualizarProgreso() {
+      const contenido = document.getElementById('chapterContent');
+      const barra = document.getElementById('progress');
+      const texto = document.getElementById('progressText');
+      if (!contenido || !barra || !texto) return;
+
+      const rect = contenido.getBoundingClientRect();
+      const inicio = window.scrollY + rect.top;
+      const altura = contenido.offsetHeight;
+      const final = inicio + altura;
+      const posicion = window.scrollY + window.innerHeight;
+      const recorrido = final - inicio;
+
+      let porcentaje = 0;
+      if (recorrido > 0) {
+        porcentaje = ((posicion - inicio) / recorrido) * 100;
+      }
+      porcentaje = Math.max(0, Math.min(100, porcentaje));
+
+      barra.style.width = porcentaje + '%';
+      texto.textContent = Math.round(porcentaje) + '% leído';
+    }
+
+    function volverArriba() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    function controlarBotonArriba() {
+      const boton = document.getElementById('topButton');
+      if (window.scrollY > 350) { boton.style.display = 'flex'; } else { boton.style.display = 'none'; }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const oscuro = document.body.classList.contains('dark');
+      document.getElementById('themeButton').textContent = oscuro ? '☀️' : '🌙';
+      try { localStorage.setItem('sweetPalaceTema', oscuro ? 'oscuro' : 'claro'); } catch (e) {}
+    }
+
+    function cargarTema() {
+      try {
+        const tema = localStorage.getItem('sweetPalaceTema');
+        if (tema === 'oscuro') {
+          document.body.classList.add('dark');
+          document.getElementById('themeButton').textContent = '☀️';
+        }
+      } catch (e) {}
+    }
+
+    document.getElementById('buscarNovela').addEventListener('input', function() {
+      construirBiblioteca(this.value);
+    });
+
+    document.getElementById('password').addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        entrar();
+      }
+    });
+
+    window.addEventListener('scroll', function() {
+      if (readerScreen.classList.contains('active')) { actualizarProgreso(); }
+      controlarBotonArriba();
+    }, { passive: true });
+
+    /* =====================================================
+       INICIAR SESIÓN GUARDADA (Adaptado con Fetch)
+    ===================================================== */
+    function iniciarSesionGuardada() {
+      const password = recuperarPasswordSesion();
+      if (!password) return;
+
+      const loading = document.getElementById('loading');
+      loading.style.display = 'block';
+      loading.textContent = '⏳ Restaurando sesión...';
+
+      fetch(`${URL_API}?action=login&password=${encodeURIComponent(password)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            cargarContenidoVIP(password);
+          } else {
+            sessionStorage.removeItem('sweetPalacePassword');
+            loading.style.display = 'none';
+          }
+        })
+        .catch(() => {
+          sessionStorage.removeItem('sweetPalacePassword');
+          loading.style.display = 'none';
+        });
+    }
+
+    /* =====================================================
+       🔒 PROTECCIÓN ANTI-COPY
+    ===================================================== */
+    document.addEventListener('selectstart', function(e) {
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); return false; }
+    });
+    document.addEventListener('copy', function(e) {
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('📚 El contenido está protegido contra copia.'); return false; }
+    });
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); alert('📚 Contenido protegido.'); return false; }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!e.target.closest('.chapter-content')) return;
+      const teclas = ['c', 'u', 's', 'p', 'a'];
+      if ((e.ctrlKey && teclas.includes(e.key.toLowerCase())) || (e.metaKey && teclas.includes(e.key.toLowerCase())) || e.key === 'F12') {
+        e.preventDefault(); alert('📚 Función deshabilitada.'); return false;
+      }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.closest('.chapter-content')) { e.preventDefault(); return false; }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarTema();
+      cargarTamano();
+      iniciarSesionGuardada();
+      console.log('🍓 Sweet Palace - Listo en GitHub Pages');
+    });
+  </script>
+</body>
+
+</html>
